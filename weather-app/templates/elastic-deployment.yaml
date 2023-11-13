@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    node.type: es-node-master
+  name: es
+  namespace: {{ .Values.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      node.type: es-node-master
+  template:
+    metadata:
+      labels:
+        node.type: es-node-master
+    spec:
+      containers:
+        - name: es-node-master-container
+          env:
+            - name: discovery.type
+              value: single-node
+          image: docker.elastic.co/elasticsearch/elasticsearch:7.16.2
+          readinessProbe:
+            exec:
+              command:
+                - curl
+                - localhost:9200/_cluster/health
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command:
+                - curl
+                - localhost:9200/_cluster/health
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          ports:
+            - containerPort: 9200
+            - containerPort: 9300
