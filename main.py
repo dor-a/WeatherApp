@@ -11,8 +11,9 @@ import logging
 
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
-POD_NAME = os.environ.get('MY_POD_NAME')
-NODE_NAME = os.environ.get('MY_NODE_NAME')
+POD_NAME = os.environ.get("MY_POD_NAME")
+NODE_NAME = os.environ.get("MY_NODE_NAME")
+
 
 def custom_logger():
     logger = logging.getLogger("log")
@@ -44,14 +45,23 @@ def main():
     response = requests.request("POST", url, headers=headers, data=payload)
     response = response.json()
     for i in range(0, len(top5_countries)):
-        query = response['bulk'][i]['query']
-        city = query['q']
-        date = query['current']['last_updated']
-        temp = query['current']['temp_c']
-        logger.info(f'Node: {NODE_NAME}, Pod: {POD_NAME} - At {date}, the temperature in {city} is: {temp}°C')
+        query = response["bulk"][i]["query"]
+        if query is not None:
+            city = query["q"]
+            query_current = query["current"]
+            if query_current is not None:
+                date = query_current["last_updated"]
+                temp = query_current["temp_c"]
+                logger.info(
+                    f"Node: {NODE_NAME}, Pod: {POD_NAME} - At {date}, the temperature in {city} is: {temp}°C"
+                )
+            else:
+                logger.error("After the API Request - Cannot fetch the current query.")
+        else:
+            logger.error("After the API Request - Cannot fetch the query.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     while True:
         main()
         sleep(300)
