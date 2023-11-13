@@ -1,0 +1,14 @@
+replicaCount: 1
+
+image:
+  repository: weatherapp
+  tag: 0.4
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    cpu: "1"
+    memory: "512Mi"
+  requests:
+    cpu: "0.2"
+    memory: "128Mi"
