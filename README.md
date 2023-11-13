@@ -6,6 +6,7 @@
         <h1>Global Weather Tracker: Real-Time Weather Data App</h1>
         <div class="section">
             <h2>Introduction</h2>
+            <href>https://lake-lobster-5aa.notion.site/Weather-API-Task-08c038c956bd4e8cb7b41656929b5a97?pvs=4</href>
             <p>Global Weather Tracker is a Python-based application designed to fetch real-time weather data from various global locations. Leveraging the Weather API, this app provides up-to-the-minute temperature updates for a selection of countries, making it an invaluable tool for travelers, researchers, and weather enthusiasts.</p>
         </div>
         <div>
