@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filebeat-config
+  namespace: {{ .Values.Namespace }}
+  labels:
+    k8s-app: filebeat
+data:
+  filebeat.yml: |-
+    filebeat.autodiscover:
+      providers:
+        - type: kubernetes
+          templates:
+            - condition:
+                equals: 
+                  kubernetes.namespace: {{ .Values.Namespace }}
+              config:
+                - module: nginx
+                  access.input:
+                      type: docker
+                      containers.ids:
+                      - "${data.kubernetes.container.id}"
+                      paths:
+                        - /var/log/containers/*${data.kubernetes.container.id}.log
+
+    setup.dashboards.enabled: true
+    setup.kibana:
+      host: "kibana-service:5601"            
+    output.elasticsearch:
+      hosts: ["es-master-service:9200"]

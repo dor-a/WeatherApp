@@ -5,7 +5,7 @@ metadata:
   name: {{ .Values.appName }}
   namespace: {{ .Values.Namespace }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.WeatherReplicaCount }}
   selector:
     matchLabels:
       app: {{ .Values.appName }}
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: weather-app-container
-          image: dora98/weather-app:0.2
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: IfNotPresent
           env:
             - name: MY_POD_NAME
