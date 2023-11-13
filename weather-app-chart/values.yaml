@@ -1,14 +1,18 @@
+
+# Number of replicas for the deployment
 replicaCount: 1
 
+# Image configuration
 image:
-  repository: weatherapp
-  tag: 0.4
-  pullPolicy: IfNotPresent
+  repository: dora98/weather-app  
+  tag: 0.4 
+  pullPolicy: IfNotPresent 
+
 
 resources:
   limits:
-    cpu: "1"
-    memory: "512Mi"
+    cpu: "1"          
+    memory: "512Mi"  
   requests:
-    cpu: "0.2"
-    memory: "128Mi"
+    cpu: "0.2" 
+    memory: "128Mi"  
